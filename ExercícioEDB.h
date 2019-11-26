@@ -6,6 +6,8 @@ void CountingSort(int *v,int n, int exp);
 int acharMaior(int *v,int n);
 void Radix(int *v,int n);
 int *criarVetor(int *vet, int tam);
+int *atualizarVetor(int *vet, int tam);
+void quicksort(int *v, int left, int right);
 
 void CountingSort(int *v,int n, int exp){
     int output[n], count[10]={0};
@@ -25,14 +27,14 @@ void CountingSort(int *v,int n, int exp){
 
     for(i=0;i<n;i++){
         v[i]=output[i];
-        printf("%d\n",v[i]);
+        //printf("%d\n",v[i]);
     }
-    printf("\n");
+    //printf("\n");
 }
 
 int acharMaior(int *v,int n){
-    int maior=v[0];
-    for(int i=1;i<n;i++){
+    int maior=v[0], i;
+    for(i=1;i<n;i++){
         if(v[i]>maior){
             maior=v[i];
         }
@@ -49,10 +51,45 @@ void Radix(int *v,int n){
 }
 
 int *criarVetor(int *vet, int tam){
-    srand(time(NULL));
-    vet = (int*)malloc(tam*sizeof(int));
-    for(int i=0;i<tam;i++){
+	int i;
+	srand(time(NULL));
+	vet = (int*)calloc(tam,sizeof(int));
+    for(i=0;i<tam;i++){
         vet[i] = rand() % 99999;
     }
     return vet;
+}
+
+int *atualizarVetor(int *vet, int tam){
+	int i;
+    for(i=0;i<tam;i++){
+        vet[i] = rand() % 99999;
+    }
+    return vet;
+}
+
+void quicksort(int *v, int left, int right) {
+    int i, j;
+	int pivo;
+	i = left; j = right;
+	pivo = v[(left+right)/2];
+	do {
+		while ((v[i] < pivo) && (i < right))
+			i++;
+		while (v[j] > pivo && j > left)
+			j--;
+		if (i <= j) {
+			int x = v[i];
+			v[i]  = v[j];
+			v[j] = x;
+			i++; j--;
+		}
+	}while(i<=j);
+
+	if (left < j) {
+		quicksort(v, left, j);
+	}
+	if (right > i){
+		quicksort(v, i, right);
+	}
 }
